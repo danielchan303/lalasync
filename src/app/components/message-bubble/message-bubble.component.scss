@@ -1,0 +1,21 @@
+:host(.fromMe) {
+  align-self: flex-end;
+}
+
+:host(:not(.fromMe)) {
+  align-self: flex-start;
+}
+
+.fromMe {
+  background-color: aquamarine;
+}
+
+.notFromMe {
+  background-color: #e7e3e3;
+}
+
+.message-box {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  overflow-wrap: break-word;
+}

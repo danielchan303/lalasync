@@ -1,0 +1,12 @@
+<p
+  *ngIf="content"
+  [ngClass]="{ fromMe: fromMe, notFromMe: !fromMe }"
+  class="message-box"
+>
+  <ng-container *ngIf="isText; else fileBubble">
+    {{ content }}
+  </ng-container>
+  <ng-template #fileBubble>
+    <a [download]="content.fileName" [href]="dataUrl">{{ content.fileName }}</a>
+  </ng-template>
+</p>

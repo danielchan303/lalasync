@@ -1,0 +1,21 @@
+<div class="center" *ngIf="id; else qrScanner">
+  <app-loading-spinner />
+  <div>Connecting...</div>
+</div>
+
+<ng-template #qrScanner>
+  <ng-container *ngIf="!cameraFound">
+    <app-loading-spinner />
+    <br />
+    <div>Opening camera...</div>
+  </ng-container>
+
+  <zxing-scanner
+    #scanner
+    [formats]="['QR_CODE']"
+    [enable]="scanEnabled"
+    (camerasFound)="cameraFound = true"
+    (scanSuccess)="scanSuccessHandler($event)"
+  ></zxing-scanner>
+  <a routerLink="/" class="show-qr">Show My QR Code</a>
+</ng-template>

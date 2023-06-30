@@ -1,0 +1,38 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-container {
+  display: block;
+  // width: 480px;
+  // max-width: 90%;
+  // height: 480px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.qr-container > div {
+  // width: 640px;
+  // max-width: 90%;
+}
+
+.show-qr {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+}
+
+:host zxing-scanner::ng-deep video {
+  border-radius: 20px;
+}
