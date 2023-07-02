@@ -1,3 +1,8 @@
+:host {
+  max-width: 90%;
+  white-space: pre-line;
+}
+
 :host(.fromMe) {
   align-self: flex-end;
 }
@@ -7,7 +12,7 @@
 }
 
 .fromMe {
-  background-color: aquamarine;
+  background-color: #cffdbc;
 }
 
 .notFromMe {
@@ -15,7 +20,16 @@
 }
 
 .message-box {
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
   overflow-wrap: break-word;
+
+  img,
+  video,
+  audio {
+    display: block;
+    max-width: 70vw;
+    max-height: 50vh;
+    object-fit: contain;
+  }
 }

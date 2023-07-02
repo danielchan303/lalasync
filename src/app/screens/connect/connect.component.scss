@@ -4,6 +4,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  zxing-scanner {
+    padding: 20px;
+  }
+
+  zxing-scanner::ng-deep video {
+    border-radius: 20px;
+  }
 }
 
 .center {
@@ -31,8 +39,4 @@
   text-decoration: none;
   display: inline-block;
   padding: 10px 20px;
-}
-
-:host zxing-scanner::ng-deep video {
-  border-radius: 20px;
 }

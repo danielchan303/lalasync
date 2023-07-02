@@ -1,58 +1,59 @@
-<main>
-  <app-loading-spinner *ngIf="!peerService.id; else content" />
-  <ng-template #content>
-    <div id="chatroom" *ngIf="connected; else qr">
-      <div id="dialog">
-        <div id="connected-msg">Connected</div>
-        <app-message-bubble
-          *ngFor="let message of records"
-          [fromMe]="message.fromMe"
-          [content]="message.content"
-        />
-      </div>
+<app-loading-spinner *ngIf="!id; else content" />
+<ng-template #content>
+  <div id="chatroom" *ngIf="isConnected(); else qr">
+    <app-dialog [records]="getRecords()"></app-dialog>
 
-      <input
-        #files
-        type="file"
-        multiple
-        style="display: none"
-        (change)="fileChangeHandler()"
-      />
-      <form id="send-message" #f="ngForm" (ngSubmit)="sendMessage(f)">
-        <button id="fileSelect" type="button" (click)="files.click()">
-          <span class="material-symbols-outlined" style="font-size: 30px">
-            attach_file
-          </span>
-        </button>
+    <input #files type="file" multiple (change)="fileChangeHandler(files)" />
+    <input
+      #photos
+      type="file"
+      multiple
+      accept="image/*,video/*"
+      (change)="fileChangeHandler(photos)"
+    />
+    <form id="send-message" #f="ngForm" (ngSubmit)="sendMessage(f)">
+      <button id="fileSelect" type="button" (click)="files.click()">
+        <span class="material-symbols-outlined" style="font-size: 20px">
+          attachment
+        </span>
+      </button>
+      <button id="fileSelect" type="button" (click)="photos.click()">
+        <span class="material-symbols-outlined" style="font-size: 20px">
+          photo_library
+        </span>
+      </button>
 
-        <textarea
-          autosize
-          name="message"
-          placeholder="Enter your message"
-          autocomplete="off"
-          [(ngModel)]="inputMessage"
-          rows="1"
-        ></textarea>
-        <button type="submit">
-          <span class="material-symbols-outlined" style="font-size: 30px">
-            send
-          </span>
-        </button>
-      </form>
-    </div>
-    <!-- show my qr code -->
-    <ng-template #qr>
+      <textarea
+        autosize
+        [maxRows]="4"
+        autocapitalize="off"
+        name="message"
+        placeholder="Enter your message"
+        autocomplete="off"
+        [(ngModel)]="inputMessage"
+        rows="1"
+      ></textarea>
+      <button type="submit">
+        <span class="material-symbols-outlined" style="font-size: 30px">
+          send
+        </span>
+      </button>
+    </form>
+  </div>
+  <!-- show my qr code -->
+  <ng-template #qr>
+    <div id="connect">
       <h2>Scan me by another device</h2>
       <qrcode
-        [qrdata]="peerService.id"
+        [qrdata]="qrContent"
         [width]="256"
         [errorCorrectionLevel]="'M'"
       ></qrcode>
-      <div class="text-center">ID<br />{{ peerService.id }}</div>
+      <div class="text-center">ID<br />{{ id }}</div>
 
       <hr />
       <h2>Scan other's QR</h2>
       <a routerLink="/connect" class="scan-qr-btn">Scan</a>
-    </ng-template>
+    </div>
   </ng-template>
-</main>
+</ng-template>

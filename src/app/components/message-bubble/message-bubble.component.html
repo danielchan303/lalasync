@@ -8,5 +8,19 @@
   </ng-container>
   <ng-template #fileBubble>
     <a [download]="content.fileName" [href]="dataUrl">{{ content.fileName }}</a>
+    <img
+      *ngIf="isImage"
+      (click)="openLightbox()"
+      [src]="dataUrl"
+      class="img-fluid d-block mx-auto rounded"
+    />
+    <video *ngIf="isVideo" controls>
+      <source [src]="dataUrl" [type]="content.fileType" />
+      Your browser does not support the video tag.
+    </video>
+    <audio *ngIf="isAudio" controls>
+      <source [src]="dataUrl" [type]="content.fileType" />
+      Your browser does not support the audio element.
+    </audio>
   </ng-template>
 </p>

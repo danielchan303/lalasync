@@ -1,0 +1,7 @@
+<div id="connected-msg">Connected</div>
+<app-message-bubble
+  *ngFor="let message of records; let i = index"
+  [fromMe]="message.fromMe"
+  [content]="message.content"
+  [isLast]="i === records.length - 1"
+/>

@@ -1,6 +1,13 @@
 <header class="header">
-  <nav>Syncplify</nav>
+  <nav>LaLaSync</nav>
+  <span
+    *ngIf="isConnected"
+    (click)="disconnect()"
+    id="disconnect"
+    class="material-symbols-outlined"
+  >
+    logout
+  </span>
 </header>
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
+
+<router-outlet></router-outlet>

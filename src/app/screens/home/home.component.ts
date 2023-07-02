@@ -1,38 +1,67 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PeerService } from 'src/app/services/peer';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { PeerService } from 'src/app/services/peer.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
-  @ViewChild('files') filesInput: ElementRef;
+export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('dialog') dialog: ElementRef;
+  idSubscription: Subscription;
 
-  records = this.peerService.records;
+  qrContent = '';
   inputMessage = '';
 
-  get connected() {
-    // return true;
+  id: string;
+
+  getRecords() {
+    return this.peerService.records;
+  }
+
+  isConnected() {
     return !!this.peerService.currentConnection;
   }
 
-  constructor(public peerService: PeerService) {}
+  constructor(private peerService: PeerService) {}
 
-  fileChangeHandler() {
-    const fileList = this.filesInput.nativeElement.files;
-    console.log('fileList', fileList);
+  ngOnInit(): void {
+    this.idSubscription = this.peerService.id.subscribe((id) => {
+      this.id = id;
+      this.qrContent = `${window.location.origin}/connect/${this.id}`;
+    });
+  }
 
-    for (let file of fileList) {
+  ngOnDestroy(): void {
+    this.idSubscription.unsubscribe();
+  }
+
+  fileChangeHandler(input: HTMLInputElement) {
+    const fileList = input.files;
+
+    console.log('fileList', input);
+
+    for (var i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
       const reader = new FileReader();
 
       reader.addEventListener(
         'load',
         () => {
           const result = reader.result;
-          console.log('result', result);
-          this.peerService.sendFile(file.name, result);
+          this.peerService.sendFile(file.name, file.type, result);
         },
         false
       );
@@ -41,7 +70,6 @@ export class HomeComponent {
   }
 
   sendMessage(form: NgForm) {
-    console.log('form', form.value);
     this.peerService.sendMessage(form.value.message);
     this.inputMessage = '';
   }
