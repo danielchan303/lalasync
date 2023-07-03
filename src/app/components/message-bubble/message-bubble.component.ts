@@ -5,7 +5,6 @@ import {
   HostBinding,
   Input,
   OnChanges,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { Lightbox } from 'ngx-lightbox';
@@ -31,22 +30,24 @@ export class MessageBubbleComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.isLast) {
-      scrollIntoView(this.elementRef.nativeElement, {
-        scrollMode: 'if-needed',
-        block: 'nearest',
-        inline: 'nearest',
-      });
+      setTimeout(() => {
+        scrollIntoView(this.elementRef.nativeElement, {
+          scrollMode: 'if-needed',
+          block: 'end',
+        });
+      }, 200);
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('bubble on change', changes);
-    this.dataUrl = this.getHref();
     this.isText = typeof this.content === 'string';
     console.log('fileType', this.content);
     this.isImage = this.content.fileType?.startsWith('image/');
     this.isVideo = this.content.fileType?.startsWith('video/');
     this.isAudio = this.content.fileType?.startsWith('audio/');
+
+    this.dataUrl = this.getHref();
   }
 
   getHref() {
@@ -65,5 +66,9 @@ export class MessageBubbleComponent implements OnChanges, AfterViewInit {
       centerVertically: true,
       disableScrolling: true,
     });
+  }
+
+  videoPreview(video: HTMLVideoElement) {
+    video.currentTime = 0.0;
   }
 }

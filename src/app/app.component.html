@@ -9,5 +9,17 @@
     logout
   </span>
 </header>
-
 <router-outlet></router-outlet>
+<div id="ads-overlay" *ngIf="showAds">
+  <div id="ads-container">
+    <ng-adsense
+      adFormat="auto"
+      className="adsbygoogle"
+      adClient="ca-pub-7807917064284650"
+      display="block"
+      [adSlot]="4360147601"
+      [fullWidthResponsive]="true"
+    ></ng-adsense>
+  </div>
+  <span class="material-symbols-outlined" (click)="closeAds()"> close </span>
+</div>

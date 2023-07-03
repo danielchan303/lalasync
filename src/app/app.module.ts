@@ -4,6 +4,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AutosizeModule } from 'ngx-autosize';
 import { LightboxModule } from 'ngx-lightbox';
+import { AdsenseModule } from 'ng2-adsense';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './screens/home/home.component';
@@ -31,6 +32,9 @@ import { DialogComponent } from './screens/home/components/dialog/dialog.compone
     FormsModule,
     AutosizeModule,
     LightboxModule,
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-7807917064284650',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -14,7 +14,13 @@
       [src]="dataUrl"
       class="img-fluid d-block mx-auto rounded"
     />
-    <video *ngIf="isVideo" controls>
+    <video
+      *ngIf="isVideo"
+      #video
+      controls
+      preload="metadata"
+      (loadedmetadata)="videoPreview(video)"
+    >
       <source [src]="dataUrl" [type]="content.fileType" />
       Your browser does not support the video tag.
     </video>

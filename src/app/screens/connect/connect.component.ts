@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { Subscription } from 'rxjs';
+import { Subscription, filter, takeWhile } from 'rxjs';
 import { PeerService } from 'src/app/services/peer.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class ConnectComponent implements OnInit, OnDestroy {
   id = '';
   cameraFound = false;
   isReadySubscription: Subscription;
+  isConnectedSubscription: Subscription;
 
   constructor(
     private peerService: PeerService,
@@ -26,7 +27,14 @@ export class ConnectComponent implements OnInit, OnDestroy {
     if (this.id) {
       console.log('connect id ', this.id);
       this.isReadySubscription = this.peerService.connect(this.id);
-      this.router.navigate(['/']);
+      this.isConnectedSubscription = this.peerService.isConnected
+        .pipe(
+          takeWhile((isConnected) => !isConnected, true),
+          filter((isConnected) => isConnected)
+        )
+        .subscribe(() => {
+          this.router.navigate(['/']);
+        });
     }
   }
 
@@ -36,9 +44,8 @@ export class ConnectComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.isReadySubscription) {
-      this.isReadySubscription.unsubscribe();
-    }
+    this.isReadySubscription?.unsubscribe();
+    this.isConnectedSubscription?.unsubscribe();
   }
 
   scanSuccessHandler(qrContent: string) {
