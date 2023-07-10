@@ -1,59 +1,138 @@
-<app-loading-spinner *ngIf="!id; else content" />
-<ng-template #content>
-  <div id="chatroom" *ngIf="isConnected(); else qr">
-    <app-dialog [records]="getRecords()"></app-dialog>
-
-    <input #files type="file" multiple (change)="fileChangeHandler(files)" />
-    <input
-      #photos
-      type="file"
-      multiple
-      accept="image/*,video/*"
-      (change)="fileChangeHandler(photos)"
-    />
-    <form id="send-message" #f="ngForm" (ngSubmit)="sendMessage(f)">
-      <button id="fileSelect" type="button" (click)="files.click()">
-        <span class="material-symbols-outlined" style="font-size: 20px">
-          attachment
-        </span>
-      </button>
-      <button id="fileSelect" type="button" (click)="photos.click()">
-        <span class="material-symbols-outlined" style="font-size: 20px">
-          photo_library
-        </span>
-      </button>
-
-      <textarea
-        autosize
-        [maxRows]="4"
-        autocapitalize="off"
-        name="message"
-        placeholder="Enter your message"
-        autocomplete="off"
-        [(ngModel)]="inputMessage"
-        rows="1"
-      ></textarea>
-      <button type="submit">
-        <span class="material-symbols-outlined" style="font-size: 30px">
-          send
-        </span>
-      </button>
-    </form>
-  </div>
-  <!-- show my qr code -->
-  <ng-template #qr>
-    <div id="connect">
-      <h2>Scan me by another device</h2>
-      <qrcode
-        [qrdata]="qrContent"
-        [width]="256"
-        [errorCorrectionLevel]="'M'"
-      ></qrcode>
-      <div class="text-center">ID<br />{{ id }}</div>
-
-      <hr />
-      <h2>Scan other's QR</h2>
-      <a routerLink="/connect" class="scan-qr-btn">Scan</a>
+<div class="intro" *ngIf="showGuide; else app">
+  <div class="hero">
+    <h1>Sending Files and Texts Should be Simple</h1>
+    <div class="slogan">Scanning a QR code that's it</div>
+    <button (click)="hideGuide()">Get Started</button>
+    <div class="learn-more" (click)="scrollTo(intro)">
+      Learn more
+      <span class="material-symbols-outlined"> expand_more </span>
     </div>
-  </ng-template>
+  </div>
+  <div class="container" #intro>
+    <section>
+      <h2>Support any devices with a browser and internet access</h2>
+      <div class="center">
+        <span
+          class="material-symbols-outlined"
+          style="font-size: 60px; margin-right: 20px"
+        >
+          phone_android
+        </span>
+        <span class="material-symbols-outlined" style="font-size: 60px">
+          computer
+        </span>
+      </div>
+      <p>
+        How to send a file from iOS to android, or from Android to a Mac? It is
+        hard, isn't it?
+      </p>
+      <p>Using lalasync, all you need is a browser and internet access.</p>
+    </section>
+    <section>
+      <h2>No more install, register, and login</h2>
+      <div class="center">
+        <span class="material-symbols-outlined" style="font-size: 60px">
+          qr_code_scanner
+        </span>
+      </div>
+      <p>
+        By using lalasync, scan another device's lalasync QR code, and you can
+        now send your files or texts.
+      </p>
+    </section>
+    <section>
+      <h2>Free and safe</h2>
+      <div class="center">
+        <span class="material-symbols-outlined" style="font-size: 60px">
+          security
+        </span>
+      </div>
+      <p>
+        Lalasync is free to use, and the files and messages that you sent are
+        not transported to our servers.
+      </p>
+    </section>
+    <section>
+      <h2>Support us</h2>
+      <p>
+        Domain registration have a cost with it. Creating this project also
+        takes a lot of time and efforts. We would be really appreciated if you
+        can buy us a coffee.
+      </p>
+      <a href="https://www.buymeacoffee.com/danielchan303" target="_blank"
+        ><img
+          src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+          alt="Buy Me A Coffee"
+          style="height: 60px !important; width: 217px !important"
+      /></a>
+    </section>
+  </div>
+</div>
+<ng-template #app>
+  <div class="app">
+    <app-loading-spinner *ngIf="!id; else content" />
+    <ng-template #content>
+      <div id="chatroom" *ngIf="isConnected(); else qr">
+        <app-dialog [records]="getRecords()"></app-dialog>
+
+        <input
+          #files
+          type="file"
+          multiple
+          (change)="fileChangeHandler(files)"
+        />
+        <input
+          #photos
+          type="file"
+          multiple
+          accept="image/*,video/*"
+          (change)="fileChangeHandler(photos)"
+        />
+        <form id="send-message" #f="ngForm" (ngSubmit)="sendMessage(f)">
+          <button id="fileSelect" type="button" (click)="files.click()">
+            <span class="material-symbols-outlined" style="font-size: 20px">
+              attachment
+            </span>
+          </button>
+          <button id="fileSelect" type="button" (click)="photos.click()">
+            <span class="material-symbols-outlined" style="font-size: 20px">
+              photo_library
+            </span>
+          </button>
+
+          <textarea
+            autosize
+            [maxRows]="4"
+            autocapitalize="off"
+            name="message"
+            placeholder="Enter your message"
+            autocomplete="off"
+            [(ngModel)]="inputMessage"
+            rows="1"
+          ></textarea>
+          <button type="submit">
+            <span class="material-symbols-outlined" style="font-size: 30px">
+              send
+            </span>
+          </button>
+        </form>
+      </div>
+      <!-- show my qr code -->
+      <ng-template #qr>
+        <div id="connect">
+          <h2>Scan me by another device</h2>
+          <qrcode
+            [qrdata]="qrContent"
+            [width]="256"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
+          <div class="text-center">ID<br />{{ id }}</div>
+
+          <hr />
+          <h2>Scan other's QR</h2>
+          <a routerLink="/connect" class="scan-qr-btn">Scan</a>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
 </ng-template>

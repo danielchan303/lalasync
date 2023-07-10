@@ -11,6 +11,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { PeerService } from 'src/app/services/peer.service';
 
 @Component({
@@ -20,6 +21,7 @@ import { PeerService } from 'src/app/services/peer.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialog: ElementRef;
+  showGuide = true;
   idSubscription: Subscription;
 
   qrContent = '';
@@ -41,6 +43,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.idSubscription = this.peerService.id.subscribe((id) => {
       this.id = id;
       this.qrContent = `${window.location.origin}/connect/${this.id}`;
+    });
+  }
+
+  hideGuide() {
+    this.showGuide = false;
+  }
+
+  scrollTo(element: any) {
+    scrollIntoView(element, {
+      scrollMode: 'if-needed',
+      block: 'start',
+      behavior: 'smooth',
     });
   }
 
