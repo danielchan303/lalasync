@@ -5,12 +5,21 @@
   justify-content: center;
   align-items: center;
 
-  zxing-scanner {
-    padding: 20px;
+  .hide {
+    height: 0;
+    overflow: hidden;
   }
 
-  zxing-scanner::ng-deep video {
-    border-radius: 20px;
+  .scanner-container {
+    padding: 20px;
+    width: 100%;
+    max-width: 50vh;
+
+    #reader {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+    }
   }
 }
 

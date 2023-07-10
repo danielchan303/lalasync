@@ -1,7 +1,7 @@
-<div class="intro" *ngIf="showGuide; else app">
+<div class="intro" *ngIf="this.globalService.showGuide; else app">
   <div class="hero">
     <h1>Sending Files and Texts Should be Simple</h1>
-    <div class="slogan">Scanning a QR code that's it</div>
+    <div class="slogan">Scanning a QR code, that's it</div>
     <button (click)="hideGuide()">Get Started</button>
     <div class="learn-more" (click)="scrollTo(intro)">
       Learn more
@@ -56,9 +56,9 @@
       <h2>Support us</h2>
       <p>
         Domain registration have a cost with it. Creating this project also
-        takes a lot of time and efforts. We would be really appreciated if you
-        can buy us a coffee.
+        takes a lot of time and efforts.
       </p>
+      <p>We would be really appreciated if you can buy us a coffee.</p>
       <a href="https://www.buymeacoffee.com/danielchan303" target="_blank"
         ><img
           src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"

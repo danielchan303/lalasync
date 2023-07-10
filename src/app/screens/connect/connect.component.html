@@ -4,18 +4,15 @@
 </div>
 
 <ng-template #qrScanner>
-  <ng-container *ngIf="!cameraFound">
+  <ng-container *ngIf="cameraLoading">
     <app-loading-spinner />
     <br />
     <div>Opening camera...</div>
   </ng-container>
 
-  <zxing-scanner
-    #scanner
-    [formats]="['QR_CODE']"
-    [enable]="scanEnabled"
-    (camerasFound)="cameraFound = true"
-    (scanSuccess)="scanSuccessHandler($event)"
-  ></zxing-scanner>
+  <div class="scanner-container">
+    <div id="reader" [ngClass]="{ hide: cameraLoading }"></div>
+  </div>
+
   <a routerLink="/" class="show-qr">Show My QR Code</a>
 </ng-template>

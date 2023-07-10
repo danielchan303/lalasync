@@ -1,3 +1,4 @@
+import { GlobalService } from './../../services/global.service';
 import {
   AfterViewInit,
   Component,
@@ -21,7 +22,7 @@ import { PeerService } from 'src/app/services/peer.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialog: ElementRef;
-  showGuide = true;
+  showGuide: boolean;
   idSubscription: Subscription;
 
   qrContent = '';
@@ -37,7 +38,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     return !!this.peerService.currentConnection;
   }
 
-  constructor(private peerService: PeerService) {}
+  constructor(
+    private peerService: PeerService,
+    public globalService: GlobalService
+  ) {}
 
   ngOnInit(): void {
     this.idSubscription = this.peerService.id.subscribe((id) => {
@@ -46,8 +50,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy(): void {
+    this.idSubscription.unsubscribe();
+  }
+
   hideGuide() {
-    this.showGuide = false;
+    this.globalService.hideGuide();
   }
 
   scrollTo(element: any) {
@@ -56,10 +64,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       block: 'start',
       behavior: 'smooth',
     });
-  }
-
-  ngOnDestroy(): void {
-    this.idSubscription.unsubscribe();
   }
 
   fileChangeHandler(input: HTMLInputElement) {

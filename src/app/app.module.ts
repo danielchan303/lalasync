@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { QRCodeModule } from 'angularx-qrcode';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { AutosizeModule } from 'ngx-autosize';
 import { LightboxModule } from 'ngx-lightbox';
 import { AdsenseModule } from 'ng2-adsense';
@@ -28,7 +27,6 @@ import { DialogComponent } from './screens/home/components/dialog/dialog.compone
     BrowserModule,
     QRCodeModule,
     AppRoutingModule,
-    ZXingScannerModule,
     FormsModule,
     AutosizeModule,
     LightboxModule,
