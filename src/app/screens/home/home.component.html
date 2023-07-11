@@ -4,7 +4,7 @@
     <div class="slogan">Scanning a QR code, that's it</div>
     <button (click)="hideGuide()">Get Started</button>
     <div class="learn-more" (click)="scrollTo(intro)">
-      Learn more
+      <span class="learn-more-text">Learn more</span>
       <span class="material-symbols-outlined"> expand_more </span>
     </div>
   </div>
@@ -54,6 +54,11 @@
     </section>
     <section>
       <h2>Support us</h2>
+      <div class="center">
+        <span class="material-symbols-outlined" style="font-size: 60px">
+          volunteer_activism
+        </span>
+      </div>
       <p>
         Domain registration have a cost with it. Creating this project also
         takes a lot of time and efforts.

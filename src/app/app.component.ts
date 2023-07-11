@@ -28,9 +28,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isConnectedSub = this.peerService.isConnected.subscribe(
       (isConnected) => {
         this.isConnected = isConnected;
-        if (isConnected) {
-          this.showAds = true;
-        }
+        // if (isConnected) {
+        //   this.showAds = true;
+        // }
       }
     );
   }

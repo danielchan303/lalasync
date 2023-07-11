@@ -46,14 +46,26 @@
       }
 
       .learn-more {
+        display: none;
+        cursor: pointer;
         position: absolute;
         bottom: 20px;
         margin: 0 auto;
         color: white;
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        @media screen and (min-height: 360px) {
+          display: flex;
+        }
+
+        .learn-more-text {
+          display: none;
+          @media screen and (min-height: 440px) {
+            display: block;
+          }
+        }
       }
     }
 
