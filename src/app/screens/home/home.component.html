@@ -2,11 +2,11 @@
   <div class="hero">
     <h1>Sending Files and Texts Should be Simple</h1>
     <div class="slogan">Scanning a QR code, that's it</div>
-    <button (click)="hideGuide()">Get Started</button>
-    <div class="learn-more" (click)="scrollTo(intro)">
+    <a class="get-started" routerLink="/app">Get Started</a>
+    <button class="learn-more" (click)="scrollTo(intro)">
       <span class="learn-more-text">Learn more</span>
       <span class="material-symbols-outlined"> expand_more </span>
-    </div>
+    </button>
   </div>
   <div class="container" #intro>
     <section>

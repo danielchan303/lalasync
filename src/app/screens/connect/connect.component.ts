@@ -17,11 +17,9 @@ import { PeerService } from 'src/app/services/peer.service';
   styleUrls: ['./connect.component.scss'],
 })
 export class ConnectComponent implements OnInit, AfterViewInit, OnDestroy {
-  scanEnabled = true;
-
   id = '';
-  scanner: Html5Qrcode;
   cameraLoading = true;
+  scanner: Html5Qrcode;
   checkCameraIsReadyInterval: any;
   isReadySubscription: Subscription;
   isConnectedSubscription: Subscription;
@@ -43,7 +41,7 @@ export class ConnectComponent implements OnInit, AfterViewInit, OnDestroy {
           filter((isConnected) => isConnected)
         )
         .subscribe(() => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/app']);
         });
     }
   }
@@ -56,49 +54,56 @@ export class ConnectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.scanner = new Html5Qrcode('reader');
-    this.checkCameraIsReadyInterval = setInterval(() => {
-      if (this.scanner.getState() === Html5QrcodeScannerState.SCANNING) {
-        setTimeout(() => {
-          this.cameraLoading = false;
-        }, 500);
-        clearInterval(this.checkCameraIsReadyInterval);
-      }
-    }, 500);
+    try {
+      this.scanner = new Html5Qrcode('reader');
 
-    this.scanner.start(
-      { facingMode: 'environment' },
-      {
-        fps: 10,
-        aspectRatio: 1,
-      },
-      (decodedText) => {
-        this.scanner.stop().then(() => {
-          this.scanSuccessHandler(decodedText);
-        });
-      },
-      (error) => {}
-    );
+      // check if camera is ready
+      this.checkCameraIsReadyInterval = setInterval(() => {
+        if (this.scanner.getState() === Html5QrcodeScannerState.SCANNING) {
+          setTimeout(() => {
+            this.cameraLoading = false;
+          }, 500);
+          clearInterval(this.checkCameraIsReadyInterval);
+        }
+      }, 500);
+
+      this.scanner.start(
+        { facingMode: 'environment' },
+        {
+          fps: 10,
+          aspectRatio: 1,
+        },
+        (decodedText) => {
+          this.scanner.stop().then(() => {
+            this.scanSuccessHandler(decodedText);
+          });
+        },
+        (error) => {}
+      );
+    } catch (error) {}
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.checkCameraIsReadyInterval);
+    if (this.checkCameraIsReadyInterval) {
+      clearInterval(this.checkCameraIsReadyInterval);
+    }
+    if (this.scanner) {
+      if (this.scanner.getState() === Html5QrcodeScannerState.SCANNING) {
+        this.scanner.stop().then(() => {
+          this.scanner.clear();
+        });
+      } else {
+        this.scanner.clear();
+      }
+    }
+
     this.isReadySubscription?.unsubscribe();
     this.isConnectedSubscription?.unsubscribe();
-
-    if (this.scanner.getState() === Html5QrcodeScannerState.SCANNING) {
-      this.scanner.stop().then(() => {
-        this.scanner.clear();
-      });
-    } else {
-      this.scanner.clear();
-    }
   }
 
   scanSuccessHandler(qrContent: string) {
     const id = qrContent.split('/').slice(-1)[0];
     this.id = id;
-    this.scanEnabled = false;
     this.connect();
   }
 }

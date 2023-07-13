@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { PeerService } from 'src/app/services/peer.service';
@@ -22,7 +22,6 @@ import { PeerService } from 'src/app/services/peer.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialog: ElementRef;
-  showGuide: boolean;
   idSubscription: Subscription;
 
   qrContent = '';
@@ -40,10 +39,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private peerService: PeerService,
+    private router: Router,
     public globalService: GlobalService
   ) {}
 
   ngOnInit(): void {
+    if (this.router.url.split('/').slice(-1)[0].startsWith('app')) {
+      this.globalService.hideGuide();
+    }
     this.idSubscription = this.peerService.id.subscribe((id) => {
       this.id = id;
       this.qrContent = `${window.location.origin}/connect/${this.id}`;

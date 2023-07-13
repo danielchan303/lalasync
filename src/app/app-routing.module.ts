@@ -6,6 +6,7 @@ import { ConnectComponent } from './screens/connect/connect.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'app', component: HomeComponent },
   { path: 'connect', component: ConnectComponent },
   { path: 'connect/:id', component: ConnectComponent },
 ];

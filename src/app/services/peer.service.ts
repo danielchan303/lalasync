@@ -39,6 +39,7 @@ export class PeerService {
     // someone connect to me
     this.peer.on('connection', (connection) => {
       if (this.currentConnection) {
+        connection.close();
         return;
       }
 
