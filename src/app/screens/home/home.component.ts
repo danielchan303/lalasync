@@ -23,7 +23,6 @@ import { PeerService } from 'src/app/services/peer.service';
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialog: ElementRef;
   idSubscription: Subscription;
-  isReadySubscription: Subscription;
 
   qrContent = '';
   inputMessage = '';
@@ -56,7 +55,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.idSubscription.unsubscribe();
-    this.isReadySubscription?.unsubscribe();
   }
 
   hideGuide() {
@@ -72,8 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   connectTo(id: string) {
-    this.router.navigate([`/connect/lalasync-${id}`]);
-    // this.isReadySubscription = this.peerService.connect(peerId);
+    this.router.navigate([`/connect/lalasync-${id.replaceAll(/\s/g, '')}`]);
   }
 
   fileChangeHandler(input: HTMLInputElement) {
