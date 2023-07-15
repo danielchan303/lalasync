@@ -124,17 +124,23 @@
       </div>
       <!-- show my qr code -->
       <ng-template #qr>
-        <div id="connect">
+        <div class="connect">
           <h2>Scan me by another device</h2>
           <qrcode
             [qrdata]="qrContent"
-            [width]="256"
+            [width]="200"
+            [margin]="0"
             [errorCorrectionLevel]="'M'"
           ></qrcode>
-          <div class="text-center">ID<br />{{ id }}</div>
-
+          <div class="text-center">ID: {{ id }}</div>
           <hr />
-          <h2>Scan other's QR</h2>
+          <h2>Enter/Scan other's id</h2>
+          <div class="enter-id">
+            <input type="text" placeholder="Enter 9 digit ID here" #peerId />
+            <button (click)="connectTo(peerId.value)">Connect</button>
+          </div>
+          <hr />
+
           <a routerLink="/connect" class="scan-qr-btn">Scan</a>
         </div>
       </ng-template>

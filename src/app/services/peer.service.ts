@@ -14,8 +14,11 @@ export class PeerService {
 
   records: any = [];
 
-  constructor() {
-    this.peer = new Peer({
+  createPeer() {
+    const num =
+      Math.floor(Math.random() * (999999999 - 100000000) + 100000000) + '';
+    const id = `lalasync-${num}`;
+    this.peer = new Peer(id, {
       // debug: 3,
     });
 
@@ -28,8 +31,12 @@ export class PeerService {
     this.peer.on('error', (error: any) => {
       console.error('debug error', error);
       switch (error.type) {
+        case 'unavailable-id':
+          this.createPeer();
+          return;
+        default:
+          this.disconnect();
       }
-      this.disconnect();
     });
 
     this.peer.on('disconnected', () => {
@@ -54,8 +61,12 @@ export class PeerService {
     });
   }
 
+  constructor() {
+    this.createPeer();
+  }
+
   // actively connect to another
-  connect = (id) => {
+  connect = (id: string) => {
     return this.isReady
       .pipe(
         takeWhile((isReady) => !isReady, true),
