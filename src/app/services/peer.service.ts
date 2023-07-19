@@ -20,6 +20,7 @@ export class PeerService {
     const id = `lalasync-${num}`;
     this.peer = new Peer(id, {
       // debug: 3,
+      secure: true,
     });
 
     this.peer.on('open', (id) => {
